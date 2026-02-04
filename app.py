@@ -5,7 +5,7 @@ import random
 # =================================================================
 # 1. CONFIGURAZIONE E DESIGN (Corazzato Anti-Errore)
 # =================================================================
-st.set_page_config(page_title="comunicAttivamente Toolkit", page_icon="🐹", layout="centered")
+st.set_page_config(page_title="comunicAttivamente Toolkit", page_icon="🎯", layout="centered")
 
 st.markdown("""
     <style>
