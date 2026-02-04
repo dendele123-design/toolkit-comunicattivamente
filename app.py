@@ -3,91 +3,124 @@ import time
 import random
 
 # =================================================================
-# 1. CONFIGURAZIONE E STILE (Brand comunicAttivamente)
+# 1. CONFIGURAZIONE E DESIGN (Suite Professionale)
 # =================================================================
-st.set_page_config(page_title="Ansia S.p.A. - Suite Esorcismo", page_icon="🐹", layout="centered")
+st.set_page_config(page_title="Ansia S.p.A. Toolkit", page_icon="🐹", layout="centered")
 
 st.markdown("""
     <style>
-    /* Anti Dark-Mode */
+    /* NASCONDE ELEMENTI DI SISTEMA (GITHUB, FORK, HEADER) */
+    header {visibility: hidden !important;}
+    footer {visibility: hidden !important;}
+    #MainMenu {visibility: hidden !important;}
+    .stAppDeployButton {display:none !important;}
+    [data-testid="stHeader"] {display:none !important;}
+    [data-testid="stToolbar"] {display: none !important;}
+    #GithubIcon {visibility: hidden !important;}
+
+    /* FORZA IL COLORE DEL TESTO (ANTI DARK MODE) */
     html, body, [class*="css"], .stMarkdown, p, h1, h2, h3, h4, span, label { color: #1a1a1a !important; }
     .stApp { background-color: #ffffff !important; }
     
-    /* Card Stile Ansia S.p.A. */
-    .ansia-card {
+    /* CARD STILE ANSIA S.P.A. */
+    .ansia-container {
+        border-left: 8px solid #ff4b4b !important;
+        padding: 20px;
         background-color: #f8f9fa;
-        padding: 25px;
-        border-radius: 15px;
-        border-left: 10px solid #ff4b4b;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 10px;
         margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
     
-    .big-money { color: #ff4b4b; font-size: 42px; font-weight: bold; text-align: center; }
+    .big-money { color: #ff4b4b !important; font-size: 42px; font-weight: bold; text-align: center; margin: 20px 0; }
     
-    /* Bottoni */
+    /* BOTTONI */
     .stButton>button { width: 100%; border-radius: 5px; height: 3.5em; font-weight: bold; text-transform: uppercase; }
     
-    /* Header Sidebar */
+    /* SIDEBAR NERA */
     [data-testid="stSidebar"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] * { color: white !important; }
+    
+    /* FOOTER CONTATTI */
+    .footer-box {
+        text-align: center;
+        padding: 30px;
+        background-color: #f1f1f1;
+        border-radius: 15px;
+        margin-top: 50px;
+    }
+    .wa-button {
+        background-color: #25D366;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin: 10px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # =================================================================
-# 2. MENU LATERALE (NAVIGAZIONE)
+# 2. MENU LATERALE
 # =================================================================
 with st.sidebar:
     st.image("https://www.comunicattivamente.it/wp-content/uploads/2023/logo-comunicattivamente.png")
-    st.title("Suite Esorcismo")
-    menu = st.radio("Cosa vuoi fare?", [
-        "💰 Calcola la Tassa sul Caos", 
+    st.write("---")
+    menu = st.radio("SELEZIONA STRUMENTO:", [
+        "💰 La Tassa sul Caos", 
         "⏳ Esorcista delle Riunioni", 
         "💊 Pillola di Saggezza"
     ])
-    st.divider()
-    st.caption("Creato da Daniele Salvatori")
+    st.write("---")
+    st.caption("Daniele Salvatori | comunicAttivamente")
+
+# MESSAGGIO DI AIUTO PER MOBILE
+st.caption("👈 Clicca la freccetta o le tre linee in alto a sinistra per cambiare strumento")
 
 # =================================================================
-# 3. TOOL 1: LA TASSA SUL CAOS (Lead Magnet)
+# 3. TOOL 1: LA TASSA SUL CAOS
 # =================================================================
-if menu == "💰 Calcola la Tassa sul Caos":
+if menu == "💰 La Tassa sul Caos":
     st.title("💰 La Tassa sul Caos")
-    st.subheader("Scopri quanti soldi stai regalando al disordine ogni anno.")
+    st.write("Scopri quanta ricchezza evapora ogni anno a causa della disorganizzazione.")
     
+    # Raggruppiamo i campi in un box visivo unico
     with st.container():
-        st.markdown('<div class="ansia-card">', unsafe_allow_html=True)
-        n_dipendenti = st.number_input("Quanti dipendenti/collaboratori hai?", min_value=1, value=5)
-        minuti_persi = st.slider("Minuti persi al giorno per persona (ricerca file, interruzioni, caos)?", 5, 120, 30)
-        costo_orario = st.number_input("Costo orario medio aziendale (€/ora)?", min_value=10, value=35)
+        st.markdown('<div class="ansia-container">', unsafe_allow_html=True)
+        n_dipendenti = st.number_input("Quanti collaboratori compongono il tuo team?", min_value=1, value=5)
+        minuti_persi = st.slider("Minuti al giorno che ogni persona spreca (cercare file, chiedere info già date, gestire il caos)?", 5, 120, 30)
+        costo_orario = st.number_input("Costo orario medio di un collaboratore (€/ora)?", min_value=10, value=30)
         st.markdown('</div>', unsafe_allow_html=True)
     
-    if st.button("CALCOLA LO SPRECO 💸", type="primary"):
+    if st.button("CALCOLA LO SPRECO ANNUALE 💸", type="primary"):
         with st.spinner("L'Esorcista sta facendo i conti..."):
             time.sleep(1)
         
         # Calcolo: (minuti/60) * costo * persone * 220 giorni lavorativi
-        spreco_giornaliero = (minuti_persi / 60) * costo_orario * n_dipendenti
-        spreco_annuale = spreco_giornaliero * 220
+        spreco_annuale = (minuti_persi / 60) * costo_orario * n_dipendenti * 220
         
-        st.error(f"### ATTENZIONE!")
+        st.error(f"### QUESTO È QUELLO CHE STAI PERDENDO:")
         st.markdown(f'<div class="big-money">€ {spreco_annuale:,.0f}</div>', unsafe_allow_html=True)
-        st.write(f"Ogni anno stai bruciando circa **€ {spreco_annuale:,.0f}** a causa della disorganizzazione.")
-        st.info("💡 Questo non è un costo fisso. È una tassa invisibile che puoi smettere di pagare domani mattina.")
-        st.link_button("SMETTI DI BRUCIARE SOLDI 🔥", "mailto:daniele@comunicattivamente.it")
+        st.write(f"In base alle tue stime, la disorganizzazione ti costa **€ {spreco_annuale:,.0f} ogni anno**.")
+        st.info("💡 Non è un costo ineluttabile. È denaro che potresti usare per investire, assumere o... andare in vacanza.")
+        st.link_button("FERMA QUESTA EMORRAGIA 🔥", "mailto:daniele@comunicattivamente.it")
 
 # =================================================================
-# 4. TOOL 2: L'ESORCISTA DELLE RIUNIONI (Client Bonus)
+# 4. TOOL 2: L'ESORCISTA DELLE RIUNIONI
 # =================================================================
 elif menu == "⏳ Esorcista delle Riunioni":
     st.title("⏳ L'Esorcista delle Riunioni")
-    st.write("Avvia questo timer durante la riunione. Guarda i soldi che evaporano.")
+    st.write("Usa questo timer in tempo reale. Metti a nudo il costo del tempo perso.")
     
-    c1, c2 = st.columns(2)
-    with c1: persone = st.number_input("Partecipanti", min_value=1, value=4)
-    with c2: costo_riunione = st.number_input("Costo orario medio (€)", min_value=10, value=40)
+    with st.container():
+        st.markdown('<div class="ansia-container">', unsafe_allow_html=True)
+        persone = st.number_input("Numero di persone presenti nella stanza", min_value=1, value=4)
+        costo_orario_dip = st.number_input("Costo orario medio di UN singolo partecipante (€)", min_value=10, value=35)
+        st.markdown('</div>', unsafe_allow_html=True)
     
-    costo_al_secondo = (persone * costo_riunione) / 3600
+    costo_al_secondo = (persone * costo_orario_dip) / 3600
     
     if "timer_on" not in st.session_state: st.session_state.timer_on = False
     if "start_time" not in st.session_state: st.session_state.start_time = 0
@@ -107,44 +140,45 @@ elif menu == "⏳ Esorcista delle Riunioni":
             trascorso = time.time() - st.session_state.start_time
             soldi_persi = trascorso * costo_al_secondo
             placeholder.markdown(f"""
-                <div class="ansia-card" style="text-align: center;">
-                    <h3>Tempo trascorso: {int(trascorso // 60)}m {int(trascorso % 60)}s</h3>
-                    <h1 style="color: #ff4b4b;">€ {soldi_persi:.2f}</h1>
-                    <p>SOLDI BRUCIATI IN QUESTA RIUNIONE</p>
+                <div style="text-align: center; background-color: #fff3cd; padding: 20px; border-radius: 15px; border: 2px solid #856404;">
+                    <p style="margin:0;">RIUNIONE IN CORSO DA: {int(trascorso // 60)}m {int(trascorso % 60)}s</p>
+                    <h1 style="color: #ff4b4b; font-size: 50px; margin: 10px 0;">€ {soldi_persi:.2f}</h1>
+                    <p style="font-weight: bold;">SOLDI BRUCIATI FINO AD ORA</p>
                 </div>
             """, unsafe_allow_html=True)
             time.sleep(1)
 
 # =================================================================
-# 5. TOOL 3: PILLOLA DI SAGGEZZA (Marketing Awareness)
+# 5. TOOL 3: PILLOLA DI SAGGEZZA
 # =================================================================
 elif menu == "💊 Pillola di Saggezza":
     st.title("💊 L'Esorcismo del Giorno")
-    st.write("Prendi la tua dose quotidiana di realtà imprenditoriale.")
+    st.write("Fermati. Leggi. Applica.")
     
     consigli = [
-        "Smetti di essere il centralinista della tua azienda. Delega il telefono.",
-        "Se una cosa non è scritta, non esiste. Crea una procedura oggi.",
-        "Il fatturato è vanità, il margine è sanità. Guarda i numeri veri.",
-        "Le riunioni senza ordine del giorno sono chat costose. Annullale tutte.",
-        "Impara a dire di NO ai clienti tossici. Liberano spazio per quelli d'oro.",
-        "Se devi farlo tu perché 'fai prima', sei ufficialmente un dipendente di te stesso."
+        "Se una procedura è nella tua testa, non è una procedura. È un segreto.",
+        "Smetti di fare il vigile del fuoco e inizia a fare l'architetto della tua azienda.",
+        "Il fatturato serve a vantarsi al bar. Il margine serve a far crescere l'azienda.",
+        "Ogni volta che dici 'Faccio prima a farlo io', stai uccidendo la tua crescita.",
+        "Delegare non significa 'scaricare', significa dare le istruzioni giuste a chi può far meglio di te.",
+        "La tua azienda deve poter funzionare se tu vai in vacanza per 30 giorni. Se no, non hai un'azienda."
     ]
     
-    if st.button("ESTRAI CONSIGLIO BRUTALE 🎲"):
-        with st.spinner("Consultando il libro dell'Esorcista..."):
-            time.sleep(0.5)
-        st.markdown(f'<div class="ansia-card" style="font-size: 24px; text-align: center;">"{random.choice(consigli)}"</div>', unsafe_allow_html=True)
+    if st.button("ESTRAI CONSIGLIO DELL'ESORCISTA 🎲", type="primary"):
+        st.markdown(f"""
+            <div style="background-color: #000; color: white; padding: 40px; border-radius: 15px; text-align: center; font-size: 24px; font-style: italic;">
+                "{random.choice(consigli)}"
+            </div>
+        """, unsafe_allow_html=True)
         st.balloons()
 
 # =================================================================
-# FOOTER CLICCABILE
+# FOOTER FINALE (WhatsApp e Sito)
 # =================================================================
-st.write("")
-st.write("---")
-st.markdown("""
-    <div style="text-align: center;">
-        📞 <a href="tel:+393929334563" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">+39 392 933 4563</a><br>
-        📧 <a href="mailto:daniele@comunicattivamente.it" style="color: #ff4b4b; text-decoration: none;">daniele@comunicattivamente.it</a>
+st.markdown(f"""
+    <div class="footer-box">
+        <b>Daniele Salvatori | comunicAttivamente</b><br>
+        <a href="https://www.comunicattivamente.it" target="_blank" style="color: #1a1a1a; text-decoration: underline;">www.comunicattivamente.it</a><br><br>
+        <a href="https://wa.me/393929334563" class="wa-button">💬 SCRIVIMI SU WHATSAPP</a>
     </div>
 """, unsafe_allow_html=True)
