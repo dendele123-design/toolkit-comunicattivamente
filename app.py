@@ -3,58 +3,43 @@ import time
 import random
 
 # =================================================================
-# 1. CONFIGURAZIONE E DESIGN
+# 1. CONFIGURAZIONE E DESIGN (Corazzato Anti-Errore)
 # =================================================================
-st.set_page_config(page_title="Ansia S.p.A. Toolkit", page_icon="🐹", layout="centered")
+st.set_page_config(page_title="comunicAttivamente Toolkit", page_icon="🐹", layout="centered")
 
 st.markdown("""
     <style>
-    /* NASCONDE HEADER E PULSANTI TECNICI */
+    /* NASCONDE TUTTO IL SUPERFLUO */
     [data-testid="stHeader"] {display:none !important;}
     footer {visibility: hidden !important;}
     .stAppDeployButton {display:none !important;}
     
-    /* SFONDO GENERALE CHIARO */
+    /* FORZA TEMA CHIARO */
     .stApp { background-color: #ffffff !important; }
-
-    /* FORZA COLORE TESTO GENERALE (Tranne dove specificato) */
-    html, body, [class*="css"], .stMarkdown, p, h1, h2, h3, h4, span, label {
+    html, body, [class*="css"], .stMarkdown, p, h1, h2, h3, h4, span, label, div {
         color: #1a1a1a !important;
     }
 
-    /* TASTI NAVIGAZIONE ORIZZONTALI */
-    .stButton > button {
-        width: 100%;
-        border-radius: 10px;
-        font-size: 12px !important;
-        padding: 5px !important;
-        height: 3em !important;
-        background-color: #f0f2f6 !important;
-    }
-
-    /* BOX PILLOLA (Nero con testo Bianco) */
+    /* BOX PILLOLA (Nero puro, testo bianco) */
     .pillola-box {
         background-color: #000000 !important;
-        padding: 40px;
+        padding: 30px;
         border-radius: 15px;
         text-align: center;
         margin: 20px 0;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
     .pillola-text {
-        color: #ffffff !important; /* FORZA BIANCO */
-        font-size: 24px !important;
+        color: #ffffff !important;
+        font-size: 22px !important;
         font-style: italic;
-        line-height: 1.4;
     }
 
-    /* RISULTATI ECONOMICI */
+    /* RISULTATI */
     .big-money {
         color: #ff4b4b !important;
-        font-size: 42px !important;
+        font-size: 40px !important;
         font-weight: bold;
         text-align: center;
-        margin: 15px 0;
     }
 
     /* WHATSAPP */
@@ -66,79 +51,75 @@ st.markdown("""
         text-decoration: none;
         font-weight: bold;
         display: inline-block;
-        margin-top: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # =================================================================
-# 2. LOGICA NAVIGAZIONE ORIZZONTALE
+# 2. BRAND E NAVIGAZIONE (Stile Sommelier)
 # =================================================================
-if 'menu' not in st.session_state:
-    st.session_state.menu = "💰 LA TASSA"
 
-# Logo
-st.image("https://www.comunicattivamente.it/wp-content/uploads/2023/logo-comunicattivamente.png", width=160)
+# Scriviamo il brand invece di usare l'immagine (più sicuro)
+st.markdown("<h1 style='text-align: center; color: #ff4b4b; margin-bottom: 0;'>comunicAttivamente</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-weight: bold; margin-top: 0;'>Esorcismo del Caos Aziendale</p>", unsafe_allow_html=True)
 
-# TASTI ORIZZONTALI (SX, CENTRO, DX)
-c_nav1, c_nav2, c_nav3 = st.columns(3)
+st.write("")
 
-with c_nav1:
-    if st.button("💰 LA TASSA"): st.session_state.menu = "💰 LA TASSA"
-with c_nav2:
-    if st.button("⏳ RIUNIONI"): st.session_state.menu = "⏳ RIUNIONI"
-with c_nav3:
-    if st.button("💊 PILLOLA"): st.session_state.menu = "💊 PILLOLA"
+# Selettore identico a quello dei vini (infallibile su mobile)
+menu = st.selectbox("SCEGLI LO STRUMENTO:", [
+    "💰 La Tassa sul Caos", 
+    "⏳ L'Esorcista delle Riunioni", 
+    "💊 L'Esorcismo del Giorno"
+])
 
 st.divider()
 
 # =================================================================
 # 3. TOOL 1: LA TASSA SUL CAOS
 # =================================================================
-if st.session_state.menu == "💰 LA TASSA":
-    st.title("💰 La Tassa sul Caos")
-    st.write("Quanta ricchezza perdi ogni anno a causa della disorganizzazione?")
+if menu == "💰 La Tassa sul Caos":
+    st.subheader("Calcola la ricchezza sprecata")
     
     with st.container(border=True):
-        n_dipendenti = st.number_input("Numero collaboratori/team:", min_value=1, value=5)
-        minuti_persi = st.slider("Minuti sprecati al giorno per persona (caos, file persi...):", 5, 120, 30)
-        costo_orario = st.number_input("Costo orario medio collaboratore (€/ora):", min_value=10, value=30)
+        n_dip = st.number_input("Quanti collaboratori hai?", min_value=1, value=5)
+        min_persi = st.slider("Minuti sprecati/giorno per persona:", 5, 120, 30)
+        costo_h = st.number_input("Costo orario medio collaboratore (€):", min_value=10, value=30)
     
     if st.button("CALCOLA SPRECO 💸", type="primary"):
-        spreco = (minuti_persi / 60) * costo_orario * n_dipendenti * 220
-        st.markdown(f'<p style="text-align:center; font-weight:bold;">SPRECO ANNUALE STIMATO:</p>', unsafe_allow_html=True)
+        spreco = (min_persi / 60) * costo_h * n_dip * 220
+        st.markdown(f'<p style="text-align:center;">SPRECO ANNUALE STIMATO:</p>', unsafe_allow_html=True)
         st.markdown(f'<div class="big-money">€ {spreco:,.0f}</div>', unsafe_allow_html=True)
-        st.info("💡 Questo è il costo del disordine. Puoi fermarlo oggi.")
+        st.warning("Non è un costo fisso. È una perdita che puoi fermare.")
         st.link_button("FERMA L'EMORRAGIA 🔥", "mailto:daniele@comunicattivamente.it")
 
 # =================================================================
 # 4. TOOL 2: L'ESORCISTA DELLE RIUNIONI
 # =================================================================
-elif st.session_state.menu == "⏳ RIUNIONI":
-    st.title("⏳ L'Esorcista delle Riunioni")
-    st.write("Il costo della riunione in tempo reale.")
+elif menu == "⏳ L'Esorcista delle Riunioni":
+    st.subheader("Il cronometro del tempo perso")
     
     with st.container(border=True):
-        persone = st.number_input("Partecipanti presenti:", min_value=1, value=4)
-        costo_h = st.number_input("Costo orario medio per partecipante (€/ora):", min_value=10, value=35)
+        pers = st.number_input("Persone presenti:", min_value=1, value=4)
+        costo_p = st.number_input("Costo orario/persona (€):", min_value=10, value=35)
     
-    costo_sec = (persone * costo_h) / 3600
-    if "start_time" not in st.session_state: st.session_state.start_time = None
+    cost_sec = (pers * costo_p) / 3600
+    
+    if "start_t" not in st.session_state: st.session_state.start_t = None
 
-    col_t1, col_t2 = st.columns(2)
-    if col_t1.button("START 🚀"): st.session_state.start_time = time.time()
-    if col_t2.button("STOP 🛑"): st.session_state.start_time = None
+    c1, c2 = st.columns(2)
+    if c1.button("START 🚀"): st.session_state.start_t = time.time()
+    if c2.button("STOP / RESET 🛑"): st.session_state.start_t = None
 
-    if st.session_state.start_time:
-        placeholder = st.empty()
-        while st.session_state.start_time:
-            t = time.time() - st.session_state.start_time
-            soldi = t * costo_sec
-            placeholder.markdown(f"""
-                <div style="text-align: center; background-color: #fff3cd; padding: 25px; border-radius: 15px; border: 2px solid #856404;">
-                    <p style="margin:0;">DA: {int(t // 60)}m {int(t % 60)}s</p>
-                    <h1 style="color: #ff4b4b; font-size: 50px; margin: 5px 0;">€ {soldi:.2f}</h1>
-                    <p style="font-weight: bold; color:#856404;">SOLDI EVAPORATI</p>
+    if st.session_state.start_t:
+        ph = st.empty()
+        while st.session_state.start_t:
+            diff = time.time() - st.session_state.start_t
+            soldi = diff * cost_sec
+            ph.markdown(f"""
+                <div style="text-align: center; background-color: #fff3cd; padding: 20px; border-radius: 15px; border: 2px solid #856404;">
+                    <h3>Tempo: {int(diff // 60)}m {int(diff % 60)}s</h3>
+                    <h1 style="color: #ff4b4b;">€ {soldi:.2f}</h1>
+                    <p>SOLDI BRUCIATI</p>
                 </div>
             """, unsafe_allow_html=True)
             time.sleep(1)
@@ -146,27 +127,24 @@ elif st.session_state.menu == "⏳ RIUNIONI":
 # =================================================================
 # 5. TOOL 3: PILLOLA DI SAGGEZZA (AREA MODIFICABILE)
 # =================================================================
-elif st.session_state.menu == "💊 PILLOLA":
-    st.title("💊 L'Esorcismo del Giorno")
-    st.write("Fermati. Leggi. Applica.")
+elif menu == "💊 L'Esorcismo del Giorno":
+    st.subheader("Fermati. Leggi. Applica.")
     
-    # --- AREA DOVE PUOI AGGIUNGERE LE TUE PILLOLE ---
-    database_pillole = [
+    # --- PUOI AGGIUNGERE LE TUE PILLOLE QUI SOTTO ---
+    pillole = [
         "Se una procedura è nella tua testa, non è una procedura. È un segreto aziendale che ti tiene prigioniero.",
-        "Smetti di fare il vigile del fuoco e inizia a fare l'architetto della tua azienda.",
-        "Il fatturato serve a vantarsi con i colleghi. Il margine serve a far dormire la tua famiglia.",
-        "Ogni volta che dici 'Faccio prima a farlo io', stai pagando per lavorare invece di farti pagare per pensare.",
-        "La tua azienda deve poter funzionare se tu sparisci per 30 giorni. Se no, hai solo un lavoro faticoso.",
-        "Dire di 'NO' ai clienti tossici è l'investimento più redditizio che puoi fare oggi.",
-        "SCRIZIONE NUOVA PILLOLA QUI", # Aggiungine quante ne vuoi così
+        "Ogni volta che dici 'Faccio prima a farlo io', stai uccidendo la tua crescita.",
+        "Il fatturato è vanità, il margine è sanità. Guarda i numeri veri, non i sogni.",
+        "La tua azienda deve poter funzionare se tu sparisci per 30 giorni. Altrimenti hai un lavoro faticoso, non un'azienda.",
+        "Le riunioni senza ordine del giorno sono chiacchiere costose. Annullale.",
+        "Dire di 'NO' ai clienti tossici è l'investimento più redditizio dell'anno."
     ]
-    # -----------------------------------------------
 
     if st.button("ESTRAI IL CONSIGLIO 🎲", type="primary"):
-        consiglio = random.choice(database_pillole)
+        scelta = random.choice(pillole)
         st.markdown(f"""
             <div class="pillola-box">
-                <p class="pillola-text">"{consiglio}"</p>
+                <p class="pillola-text">"{scelta}"</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -176,10 +154,10 @@ elif st.session_state.menu == "💊 PILLOLA":
 st.write("")
 st.write("---")
 st.markdown(f"""
-    <div style="text-align: center; padding: 10px;">
-        <p style="font-weight:bold; margin-bottom:5px;">Daniele Salvatori | comunicAttivamente</p>
-        <a href="https://www.comunicattivamente.it" target="_blank" style="color: #1a1a1a;">www.comunicattivamente.it</a><br>
+    <div style="text-align: center;">
+        <p style="font-weight:bold; margin-bottom:5px;">Daniele Salvatori</p>
         <span style="font-size: 1.1em;">📞 <a href="tel:+393929334563" style="color: #ff4b4b; text-decoration: none; font-weight: bold;">+39 392 933 4563</a></span><br><br>
-        <a href="https://wa.me/393929334563" class="wa-button">💬 WHATSAPP</a>
+        <a href="https://wa.me/393929334563" class="wa-button">💬 WHATSAPP</a><br><br>
+        <a href="https://www.comunicattivamente.it" target="_blank" style="color: #1a1a1a;">www.comunicattivamente.it</a>
     </div>
 """, unsafe_allow_html=True)
